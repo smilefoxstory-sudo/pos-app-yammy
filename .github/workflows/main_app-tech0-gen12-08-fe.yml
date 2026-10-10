@@ -39,4 +39,9 @@ jobs:
           if [ -d public ]; then cp -r public .next/standalone/public; fi
 
       - name: Deploy to Azure
-        if: github.event_name == 'push'
+        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: 'app-tech0-gen12-08-fe'
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_FRONTEND }}
+          package: ./frontend/.next/standalone
