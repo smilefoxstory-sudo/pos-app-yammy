@@ -31,4 +31,4 @@ jobs:
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'yammy-frontend'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_98EEDAAD887A43F5AC7DADE057C73D4C }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_FRONTEND }}
