@@ -7,6 +7,7 @@ on:
   pull_request:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   build:
@@ -24,7 +25,12 @@ jobs:
           cache-dependency-path: frontend/package-lock.json
 
       - run: npm ci
-      - run: npm run build
+
+      - name: Build
+        run: npm run build
+        env:
+          NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
+
       - run: npm run test --if-present
 
       - name: Prepare standalone package
@@ -34,8 +40,3 @@ jobs:
 
       - name: Deploy to Azure
         if: github.event_name == 'push'
-        uses: azure/webapps-deploy@v3
-        with:
-          app-name: 'app-tech0-gen12-08-fe'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_FRONTEND }}
-          package: ./frontend/.next/standalone
