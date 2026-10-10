@@ -4,10 +4,19 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'frontend/**'
+      - '.github/workflows/main_app-tech0-gen12-08-fe.yml'
   pull_request:
     branches:
       - main
+    paths:
+      - 'frontend/**'
   workflow_dispatch:
+
+concurrency:
+  group: deploy-frontend
+  cancel-in-progress: true
 
 jobs:
   build:
