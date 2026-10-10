@@ -6,7 +6,8 @@ app = FastAPI()
 
 app.add_middleware(
   CORSMiddleware,
-  allow_origins=["http://localhost:3000"],
+  allow_origins=["http://localhost:3000",
+  "https://app-tech0-gen12-08-be.azurewebsites.net"],
   allow_credentials=True,
   allow_methods=["*"],
   allow_headers=["*"],
