@@ -3,7 +3,9 @@ annotated-doc==0.0.5
 annotated-types==0.8.0
 anyio==4.15.1
 click==8.5.0
+cryptography
 fastapi==0.141.1
+gunicorn
 h11==0.16.0
 idna==3.20
 Mako==1.4.3
