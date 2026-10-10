@@ -1,0 +1,41 @@
+name: Deploy Frontend
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontend
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      - run: npm ci
+      - run: npm run build
+      - run: npm run test --if-present
+
+      - name: Prepare standalone package
+        run: |
+          cp -r .next/static .next/standalone/.next/static
+          if [ -d public ]; then cp -r public .next/standalone/public; fi
+
+      - name: Deploy to Azure
+        if: github.event_name == 'push'
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: 'app-tech0-gen12-08-fe'
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_FRONTEND }}
+          package: ./frontend/.next/standalone
